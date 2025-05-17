@@ -1,10 +1,18 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="de">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Annäherung an Null - Rust + WASM</title>
+  <style>
+    body {
+      background: #000;
+      color: #0f0;
+      font-family: monospace;
+    }
+  </style>
 </head>
-<body style="background:#000;color:#0f0;font-family:monospace;">
+<body>
   <h1>Annäherung an Null</h1>
   <div id="output">Lade...</div>
 
@@ -12,18 +20,23 @@
     import init, { Rechner } from "./pkg/null_visualisierung.js";
 
     async function start() {
-      await init();
-      const rechner = new Rechner();
       const output = document.getElementById("output");
+      try {
+        await init();
+        const rechner = new Rechner();
 
-      function step() {
-        const x = rechner.next();
-        const n = rechner.get_n();
-        output.innerHTML = `n = ${n}<br>x = ${x}`;
-        requestAnimationFrame(step);
+        function step() {
+          const x = rechner.next();
+          const n = rechner.get_n();
+          output.innerHTML = `n = ${n}<br>x = ${x}`;
+          requestAnimationFrame(step);
+        }
+
+        step();
+      } catch (e) {
+        output.textContent = "Fehler beim Laden von WASM: " + e;
+        console.error("WASM-Fehler:", e);
       }
-
-      step();
     }
 
     start();

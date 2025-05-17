@@ -1,15 +1,11 @@
-<!DOCTYPE html>
+ <!DOCTYPE html>
 <html lang="de">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Annäherung an Null - Rust + WASM</title>
   <style>
-    body {
-      background: #000;
-      color: #0f0;
-      font-family: monospace;
-    }
+    body { background: #000; color: #0f0; font-family: monospace; }
   </style>
 </head>
 <body>
@@ -33,9 +29,9 @@
         }
 
         step();
-      } catch (e) {
-        output.textContent = "Fehler beim Laden von WASM: " + e;
-        console.error("WASM-Fehler:", e);
+      } catch (err) {
+        output.textContent = "Fehler beim Laden des WASM-Moduls!";
+        console.error(err);
       }
     }
 

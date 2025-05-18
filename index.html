@@ -2,40 +2,109 @@
 <html lang="de">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Annäherung an Null - Rust + WASM</title>
+  <title>Zehnerpotenz-Datenbank gegen Null</title>
   <style>
-    body { background: #000; color: #0f0; font-family: monospace; }
+    body {
+      font-family: sans-serif;
+      margin: 2rem;
+      background-color: #f4f4f4;
+    }
+    h1 {
+      color: #333;
+    }
+    button {
+      margin-right: 1rem;
+      padding: 0.5rem 1rem;
+      font-size: 1rem;
+    }
+    table {
+      margin-top: 1rem;
+      border-collapse: collapse;
+      width: 100%;
+      background-color: white;
+    }
+    th, td {
+      border: 1px solid #ccc;
+      padding: 0.5rem;
+      text-align: left;
+    }
+    th {
+      background-color: #eee;
+    }
   </style>
 </head>
 <body>
-  <h1>Annäherung an Null</h1>
-  <div id="output">Lade...</div>
+  <h1>Zehnerpotenz-Datenbank gegen Null</h1>
+  <button onclick="addEntry()">➕ Neue Anmeldung erzeugen</button>
+  <button onclick="exportData()">📥 Als JSON exportieren</button>
+  <button onclick="resetData()">🗑️ Zurücksetzen</button>
 
-  <script type="module">
-    import init, { Rechner } from "./pkg/null_visualisierung.js";
+  <table>
+    <thead>
+      <tr>
+        <th>n</th>
+        <th>Wert (10<sup>-n</sup>)</th>
+      </tr>
+    </thead>
+    <tbody id="entries"></tbody>
+  </table>
 
-    async function start() {
-      const output = document.getElementById("output");
-      try {
-        await init();
-        const rechner = new Rechner();
+  <script>
+    const key = 'zehnerpotenzen';
 
-        function step() {
-          const x = rechner.next();
-          const n = rechner.get_n();
-          output.innerHTML = `n = ${n}<br>x = ${x}`;
-          requestAnimationFrame(step);
-        }
+    function loadEntries() {
+      const list = JSON.parse(localStorage.getItem(key)) || [];
+      return list;
+    }
 
-        step();
-      } catch (err) {
-        output.textContent = "Fehler beim Laden des WASM-Moduls!";
-        console.error(err);
+    function saveEntries(entries) {
+      localStorage.setItem(key, JSON.stringify(entries));
+    }
+
+    function addEntry() {
+      const entries = loadEntries();
+      const n = entries.length + 1;
+      const value = `1E-${n}`;
+      entries.push({ n, value });
+      saveEntries(entries);
+      renderEntries();
+    }
+
+    function renderEntries() {
+      const entries = loadEntries();
+      const tbody = document.getElementById('entries');
+      tbody.innerHTML = '';
+      for (const entry of entries) {
+        const row = document.createElement('tr');
+        const nCell = document.createElement('td');
+        const valueCell = document.createElement('td');
+        nCell.textContent = entry.n;
+        valueCell.textContent = entry.value;
+        row.appendChild(nCell);
+        row.appendChild(valueCell);
+        tbody.appendChild(row);
       }
     }
 
-    start();
+    function exportData() {
+      const data = loadEntries();
+      const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = 'zehnerpotenzen.json';
+      link.click();
+    }
+
+    function resetData() {
+      if (confirm('Willst du alle gespeicherten Werte wirklich löschen?')) {
+        localStorage.removeItem(key);
+        renderEntries();
+      }
+    }
+
+    // Initiale Anzeige
+    renderEntries();
   </script>
 </body>
 </html>

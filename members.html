@@ -1,0 +1,90 @@
+
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <title>Mitgliederbereich</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body { font-family: sans-serif; background-color: #111; color: #fff; margin: 0; padding: 0; }
+        header, footer { background: #222; padding: 1em; text-align: center; }
+        main { padding: 2em; max-width: 1000px; margin: auto; }
+        .member-card {
+            background: #1e1e1e;
+            border-radius: 12px;
+            padding: 1em;
+            margin: 1em 0;
+            display: flex;
+            gap: 1em;
+            align-items: center;
+        }
+        img.avatar {
+            width: 64px;
+            height: 64px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+        .member-info h3 {
+            margin: 0 0 0.5em 0;
+        }
+    </style>
+</head>
+<body>
+<nav>
+<ul>
+    <li><a href="index.html">Start</a></li>
+    <li><a href="about.html">Über uns</a></li>
+    <li><a href="services.html">Dienstleistungen</a></li>
+    <li><a href="forum.html">Forum</a></li>
+    <li><a href="members.html">Mitglieder</a></li>
+    <li><a href="media.html">Media</a></li>
+    <li><a href="contact.html">Kontakt</a></li>
+</ul>
+</nav>
+<header>
+    <h1>Mitglieder</h1>
+</header>
+<main>
+    <div class="member-card">
+        <img class="avatar" src="https://via.placeholder.com/64" alt="User 1">
+        <div class="member-info">
+            <h3>Anna Müller</h3>
+            <p>UX Designerin mit Fokus auf barrierefreies Webdesign.</p>
+        </div>
+    </div>
+    <div class="member-card">
+        <img class="avatar" src="https://via.placeholder.com/64" alt="User 2">
+        <div class="member-info">
+            <h3>David König</h3>
+            <p>Fullstack-Entwickler, JavaScript-Enthusiast, liebt Open Source.</p>
+        </div>
+    </div>
+    <!-- Weitere Mitglieder können hier eingefügt oder per Backend dynamisch geladen werden -->
+</main>
+
+
+
+<footer class="text-center text-sm text-gray-500 py-6 border-t border-gray-700">
+  <div>
+    <span id="datetime"></span> | Wetter: <span id="weather"></span>
+  </div>
+  <div>
+    &copy; <span id="year"></span> TEL1.nl – Tell first to tell. Alle Rechte vorbehalten.
+  </div>
+</footer>
+<script>
+  document.getElementById('year').textContent = new Date().getFullYear();
+
+  function updateDateTime() {
+    const now = new Date();
+    const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+    const date = now.toLocaleDateString('de-DE', options);
+    const time = now.toLocaleTimeString('de-DE', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+    document.getElementById('datetime').textContent = `${date}, ${time}`;
+  }
+  updateDateTime();
+  setInterval(updateDateTime, 1000);
+  document.getElementById('weather').textContent = 'Teilweise sonnig, 17°C';
+</script>
+
+</body></html>

@@ -2,109 +2,74 @@
 <html lang="de">
 <head>
   <meta charset="UTF-8">
-  <title>Zehnerpotenz-Datenbank gegen Null</title>
-  <style>
-    body {
-      font-family: sans-serif;
-      margin: 2rem;
-      background-color: #f4f4f4;
-    }
-    h1 {
-      color: #333;
-    }
-    button {
-      margin-right: 1rem;
-      padding: 0.5rem 1rem;
-      font-size: 1rem;
-    }
-    table {
-      margin-top: 1rem;
-      border-collapse: collapse;
-      width: 100%;
-      background-color: white;
-    }
-    th, td {
-      border: 1px solid #ccc;
-      padding: 0.5rem;
-      text-align: left;
-    }
-    th {
-      background-color: #eee;
-    }
-  </style>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="Content-Language" content="de">
+  <meta name="description" content="TEL1.nl – Digitale Innovationen und Projekte mit TEL & Gentlyoverdone.">
+  <meta name="keywords" content="TEL, Gentlyoverdone, Musik, Technologie, Projekte, Media">
+  <meta name="author" content="TEL1.nl">
+  <link rel="alternate" hreflang="x-default" href="https://www.tel1.nl/" />
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TEL1.nl – Die Zukunft beginnt hier</title>
+  <link href="styles.css" rel="stylesheet">
 </head>
-<body>
-  <h1>Zehnerpotenz-Datenbank gegen Null</h1>
-  <button onclick="addEntry()">➕ Neue Anmeldung erzeugen</button>
-  <button onclick="exportData()">📥 Als JSON exportieren</button>
-  <button onclick="resetData()">🗑️ Zurücksetzen</button>
+<body class="bg-gradient-to-br from-black via-gray-900 to-gray-800 text-white font-sans">
 
-  <table>
-    <thead>
-      <tr>
-        <th>n</th>
-        <th>Wert (10<sup>-n</sup>)</th>
-      </tr>
-    </thead>
-    <tbody id="entries"></tbody>
-  </table>
+  <!-- Navigation -->
+  <nav class="bg-gray-900 p-6 border-b border-gray-700 flex justify-between items-center">
+    <h1 class="text-2xl font-bold text-white">TEL1.nl</h1>
+    <ul class="flex gap-6 text-white text-sm">
+      <li><a href="index.html" class="hover:underline">Start</a></li>
+      <li><a href="about.html" class="hover:underline">Über uns</a></li>
+      <li><a href="services.html" class="hover:underline">Dienste</a></li>
+      <li><a href="contact.html" class="hover:underline">Kontakt</a></li>
+    </ul>
+    <a href="media.html" class="ml-4 hover:underline"><a href="forum.html">Forum</a></li>
+<li><a href="members.html">Mitglieder</a>
+<li><a href="media.html">Media</a>
+</nav>
 
-  <script>
-    const key = 'zehnerpotenzen';
+  <!-- Hauptinhalt -->
+  <main class="p-6">
+    <section class="text-center py-16">
+      <h2 class="text-5xl font-extrabold mb-4">Die Zukunft der Technologie beginnt hier</h2>
+      <p class="text-lg text-gray-300 max-w-2xl mx-auto">
+        Entdecke TEL1.nl – die neue Plattform für smarte Kommunikation, Innovation und digitale Dienste aus den Niederlanden.
+      </p>
+    </section>
+  </main>
 
-    function loadEntries() {
-      const list = JSON.parse(localStorage.getItem(key)) || [];
-      return list;
-    }
+  <!-- Footer -->
+  
 
-    function saveEntries(entries) {
-      localStorage.setItem(key, JSON.stringify(entries));
-    }
+  <!-- JavaScript -->
+  
 
-    function addEntry() {
-      const entries = loadEntries();
-      const n = entries.length + 1;
-      const value = `1E-${n}`;
-      entries.push({ n, value });
-      saveEntries(entries);
-      renderEntries();
-    }
 
-    function renderEntries() {
-      const entries = loadEntries();
-      const tbody = document.getElementById('entries');
-      tbody.innerHTML = '';
-      for (const entry of entries) {
-        const row = document.createElement('tr');
-        const nCell = document.createElement('td');
-        const valueCell = document.createElement('td');
-        nCell.textContent = entry.n;
-        valueCell.textContent = entry.value;
-        row.appendChild(nCell);
-        row.appendChild(valueCell);
-        tbody.appendChild(row);
-      }
-    }
 
-    function exportData() {
-      const data = loadEntries();
-      const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
-      const url = URL.createObjectURL(blob);
-      const link = document.createElement('a');
-      link.href = url;
-      link.download = 'zehnerpotenzen.json';
-      link.click();
-    }
 
-    function resetData() {
-      if (confirm('Willst du alle gespeicherten Werte wirklich löschen?')) {
-        localStorage.removeItem(key);
-        renderEntries();
-      }
-    }
 
-    // Initiale Anzeige
-    renderEntries();
-  </script>
-</body>
-</html>
+<footer class="text-center text-sm text-gray-500 py-6 border-t border-gray-700">
+  <div>
+    <span id="datetime"></span> | Wetter: <span id="weather"></span>
+  </div>
+  <div>
+    &copy; <span id="year"></span> TEL1.nl – Tell first to tell. Alle Rechte vorbehalten.
+  </div>
+</footer>
+<script>
+  document.getElementById('year').textContent = new Date().getFullYear();
+
+  function updateDateTime() {
+    const now = new Date();
+    const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+    const date = now.toLocaleDateString('de-DE', options);
+    const time = now.toLocaleTimeString('de-DE', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+    document.getElementById('datetime').textContent = `${date}, ${time}`;
+  }
+  updateDateTime();
+  setInterval(updateDateTime, 1000);
+  document.getElementById('weather').textContent = 'Teilweise sonnig, 17°C';
+</script>
+
+</body></html>

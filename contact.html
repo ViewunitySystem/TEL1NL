@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="Content-Language" content="de">
+  <meta name="description" content="TEL1.nl – Digitale Innovationen und Projekte mit TEL & Gentlyoverdone.">
+  <meta name="keywords" content="TEL, Gentlyoverdone, Musik, Technologie, Projekte, Media">
+  <meta name="author" content="TEL1.nl">
+  <link rel="alternate" hreflang="x-default" href="https://www.tel1.nl/" />
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Kontakt & Support</title>
+  <link href="styles.css" rel="stylesheet">
+</head>
+<body class="bg-gradient-to-br from-black via-gray-900 to-gray-800 text-white font-sans">
+
+<!-- Navigation -->
+<nav class="bg-gray-900 p-6 border-b border-gray-700 flex justify-between items-center">
+  <h1 class="text-2xl font-bold text-white">TEL1.nl</h1>
+  <ul class="flex gap-6 text-white text-sm">
+    <li><a href="index.html" class="hover:underline">Start</a></li>
+    <li><a href="about.html" class="hover:underline">Über uns</a></li>
+    <li><a href="services.html" class="hover:underline">Dienste</a></li>
+    <li><a href="contact.html" class="hover:underline font-bold underline">Kontakt</a></li>
+  </ul>
+</nav>
+
+<!-- Hauptinhalt -->
+<main class="p-6">
+  <section class="py-16 max-w-3xl mx-auto">
+    <h2 class="text-4xl font-bold mb-6">Kontaktiere uns +31-613803782</h2>
+    <p class="text-gray-300 mb-4">
+      Du möchtest mehr erfahren oder uns Feedback geben? Schreib uns an
+      <a href="mailto:gentlyoverdone@outlook.com" class="underline">gentlyoverdone@outlook.com</a>
+    </p>
+
+    
+
+<form action="https://formspree.io/f/xeogbnrv" method="POST" class="grid gap-4" onsubmit="return validateCaptcha();">
+  <label class="text-white">
+    Ihr Name:
+    <input type="text" name="name" required class="p-2 rounded w-full bg-gray-800 text-white border border-gray-600" placeholder="Ihr Name">
+  </label>
+  <label class="text-white">
+    Ihre E-Mail:
+    <input type="email" name="email" required class="p-2 rounded w-full bg-gray-800 text-white border border-gray-600" placeholder="email@example.com">
+  </label>
+  <label class="text-white">
+    Ihre Nachricht:
+    <textarea name="message" required class="p-2 rounded w-full bg-gray-800 text-white border border-gray-600" placeholder="Ihre Nachricht..."></textarea>
+  </label>
+  <label class="text-white">
+    Was ist 3 + 4? (Anti-Spam):
+    <input type="text" id="captcha" required class="p-2 rounded w-full bg-gray-800 text-white border border-gray-600" placeholder="Antwort">
+  </label>
+  <button type="submit" class="bg-blue-600 text-white py-2 px-4 rounded hover:bg-blue-700">Absenden</button>
+</form>
+<script>
+  function validateCaptcha() {
+    const captcha = document.getElementById('captcha').value.trim();
+    if (captcha !== '7') {
+      alert('Bitte lösen Sie das CAPTCHA korrekt (3 + 4).');
+      return false;
+    }
+    return true;
+  }
+</script>
+
+<script>
+  function validateCaptcha() {
+    const captcha = document.getElementById('captcha').value.trim();
+    if (captcha !== '7') {
+      alert('Bitte lösen Sie das CAPTCHA korrekt (3 + 4).');
+      return false;
+    }
+    return true;
+  }
+</script>
+
+  </section>
+</main>
+
+<!-- Footer -->
+
+
+
+
+
+<footer class="text-center text-sm text-gray-500 py-6 border-t border-gray-700">
+  <div>
+    <span id="datetime"></span> | Wetter: <span id="weather"></span>
+  </div>
+  <div>
+    &copy; <span id="year"></span> TEL1.nl – Tell first to tell. Alle Rechte vorbehalten.
+  </div>
+</footer>
+<script>
+  document.getElementById('year').textContent = new Date().getFullYear();
+
+  function updateDateTime() {
+    const now = new Date();
+    const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+    const date = now.toLocaleDateString('de-DE', options);
+    const time = now.toLocaleTimeString('de-DE', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+    document.getElementById('datetime').textContent = `${date}, ${time}`;
+  }
+  updateDateTime();
+  setInterval(updateDateTime, 1000);
+  document.getElementById('weather').textContent = 'Teilweise sonnig, 17°C';
+</script>
+
+</body></html>

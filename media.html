@@ -1,0 +1,65 @@
+
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="Content-Language" content="de">
+  <meta name="description" content="Media-Seite von TEL & Gentlyoverdone mit eingebetteten Inhalten.">
+  <meta name="keywords" content="TEL, Gentlyoverdone, Musik, YouTube, Spotify, Media">
+  <meta name="author" content="TEL1.nl">
+  <link rel="alternate" hreflang="x-default" href="https://www.tel1.nl/" />
+  <link rel="stylesheet" href="styles.css" />
+  <title>Media – TEL1</title>
+</head>
+<body class="bg-black text-white">
+  <header class="text-center my-6">
+    <h1 class="text-2xl font-bold">Media – TEL & Gentlyoverdone</h1>
+    <nav class="mt-4">
+      <a href="index.html" class="mx-2 hover:underline">Start</a>
+      <a href="about.html" class="mx-2 hover:underline">Über uns</a>
+      <a href="services.html" class="mx-2 hover:underline">Leistungen</a>
+      <a href="contact.html" class="mx-2 hover:underline">Kontakt</a>
+      <a href="media.html" class="mx-2 font-semibold underline">Media</a>
+    </nav>
+  </header>
+  <main class="p-6 max-w-3xl mx-auto">
+    <section class="mb-8">
+      <h2 class="text-xl font-semibold mb-4">YouTube</h2>
+      <div class="aspect-w-16 aspect-h-9">
+        <iframe width="716" height="403" src="https://www.youtube.com/embed/I-2gMGo_9hE?list=OLAK5uy_mOeQki0g4z0ec-6ayaSEmI3d8CgvYyxo0" title="Trouble" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+      </div>
+    </section>
+    <section class="mb-8">
+      <h2 class="text-xl font-semibold mb-4">Spotify</h2>
+      <iframe style="border-radius:12px" src="https://open.spotify.com/embed/album/3pS1z2dfEvuDkRFUuq9iER?utm_source=generator" width="100%" height="352" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+    </section>
+  </main>
+  
+
+
+
+<footer class="text-center text-sm text-gray-500 py-6 border-t border-gray-700">
+  <div>
+    <span id="datetime"></span> | Wetter: <span id="weather"></span>
+  </div>
+  <div>
+    &copy; <span id="year"></span> TEL1.nl – Tell first to tell. Alle Rechte vorbehalten.
+  </div>
+</footer>
+<script>
+  document.getElementById('year').textContent = new Date().getFullYear();
+
+  function updateDateTime() {
+    const now = new Date();
+    const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+    const date = now.toLocaleDateString('de-DE', options);
+    const time = now.toLocaleTimeString('de-DE', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+    document.getElementById('datetime').textContent = `${date}, ${time}`;
+  }
+  updateDateTime();
+  setInterval(updateDateTime, 1000);
+  document.getElementById('weather').textContent = 'Teilweise sonnig, 17°C';
+</script>
+
+</body></html>

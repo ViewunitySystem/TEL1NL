@@ -74,6 +74,89 @@
     height: 300
   });
 </script>
+
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-app.js";
+  import { getFirestore, collection, addDoc, getDocs } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore.js";
+  import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-auth.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyALNLHsXb3d8DTpTqs9K50jZMaOZ7H_5u0",
+    authDomain: "tel1nlforum-7b6e7.firebaseapp.com",
+    projectId: "tel1nlforum-7b6e7",
+    storageBucket: "tel1nlforum-7b6e7.firebasestorage.app",
+    messagingSenderId: "337441482047",
+    appId: "1:337441482047:web:f7ff008be523d4f37a1f8a",
+    measurementId: "G-HXPT43K4ST"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const db = getFirestore(app);
+  const auth = getAuth();
+
+  window.login = async () => {
+    const email = document.getElementById('email').value;
+    const password = document.getElementById('password').value;
+    try {
+      await signInWithEmailAndPassword(auth, email, password);
+      alert('Erfolgreich angemeldet');
+    } catch (e) {
+      alert('Fehler: ' + e.message);
+    }
+  }
+
+  window.register = async () => {
+    const email = document.getElementById('reg_email').value;
+    const password = document.getElementById('reg_password').value;
+    const name = document.getElementById('reg_name').value;
+    try {
+      const userCred = await createUserWithEmailAndPassword(auth, email, password);
+      await addDoc(collection(db, "users"), {
+        uid: userCred.user.uid,
+        name: name,
+        email: email
+      });
+      alert('Registrierung erfolgreich');
+    } catch (e) {
+      alert('Fehler: ' + e.message);
+    }
+  }
+
+  window.logout = async () => {
+    await signOut(auth);
+    alert('Abgemeldet');
+  }
+
+  window.loadPosts = async () => {
+    const postsContainer = document.getElementById("posts");
+    postsContainer.innerHTML = "";
+    const querySnapshot = await getDocs(collection(db, "posts"));
+    querySnapshot.forEach((doc) => {
+      const data = doc.data();
+      const div = document.createElement("div");
+      div.innerHTML = `<strong>${data.author}</strong>: ${data.message}`;
+      postsContainer.appendChild(div);
+    });
+  }
+
+  window.postMessage = async () => {
+    const msg = document.getElementById("new_post").value;
+    const user = auth.currentUser;
+    if (!user) return alert("Bitte zuerst einloggen.");
+    await addDoc(collection(db, "posts"), {
+      author: user.email,
+      message: msg
+    });
+    document.getElementById("new_post").value = "";
+    loadPosts();
+  }
+
+  onAuthStateChanged(auth, user => {
+    document.getElementById("auth_status").textContent = user ? `Angemeldet als ${user.email}` : "Nicht angemeldet";
+    if (user) loadPosts();
+  });
+</script>
+
 </head>
 <body>
 <nav>
@@ -91,6 +174,29 @@
     <h1>Forum & Benutzerprofil</h1>
 </header>
 <main>
+
+<section>
+  <div id="auth_status">Nicht angemeldet</div>
+  <h2>Login</h2>
+  <input type="email" id="email" placeholder="E-Mail">
+  <input type="password" id="password" placeholder="Passwort">
+  <button onclick="login()">Login</button>
+  <button onclick="logout()">Logout</button>
+
+  <h2>Registrieren</h2>
+  <input type="text" id="reg_name" placeholder="Name">
+  <input type="email" id="reg_email" placeholder="E-Mail">
+  <input type="password" id="reg_password" placeholder="Passwort">
+  <button onclick="register()">Registrieren</button>
+
+  <h2>Neuer Beitrag</h2>
+  <textarea id="new_post" placeholder="Deine Nachricht..."></textarea>
+  <button onclick="postMessage()">Posten</button>
+
+  <h2>Beiträge</h2>
+  <div id="posts"></div>
+</section>
+
     <section>
         <h2>Benutzerregistrierung & Profil</h2>
         <form method="POST" action="https://formspree.io/f/your-form-id" enctype="multipart/form-data">

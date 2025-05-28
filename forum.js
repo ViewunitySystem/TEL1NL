@@ -1,8 +1,10 @@
+
 import { auth, db } from "./firebase-config.js";
 import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
-  sendPasswordResetEmail, onAuthStateChanged
+  sendPasswordResetEmail,
+  onAuthStateChanged
 } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-auth.js";
 import {
   doc, getDoc, setDoc,
@@ -19,6 +21,7 @@ const forumSection = document.getElementById("forumSection");
 
 let currentUserProfile = null;
 
+// Login
 if (loginForm) {
   loginForm.addEventListener("submit", async (e) => {
     e.preventDefault();
@@ -26,12 +29,14 @@ if (loginForm) {
     const pass = document.getElementById("loginPassword").value;
     try {
       await signInWithEmailAndPassword(auth, email, pass);
+      alert("Login erfolgreich!");
     } catch (err) {
       alert("Login fehlgeschlagen: " + err.message);
     }
   });
 }
 
+// Registrierung
 if (registerForm) {
   registerForm.addEventListener("submit", async (e) => {
     e.preventDefault();
@@ -48,81 +53,14 @@ if (registerForm) {
         bio: bio,
         avatar: avatarUrl
       });
+      alert("Registrierung erfolgreich!");
     } catch (err) {
       alert("Registrierung fehlgeschlagen: " + err.message);
     }
   });
 }
 
-sendPasswordResetEmail, onAuthStateChanged(auth, async (user) => {
-  if (user) {
-    const docSnap = await getDoc(doc(db, "users", user.uid));
-    currentUserProfile = docSnap.exists() ? docSnap.data() : { name: user.email };
-    if (loginSection) loginSection.style.display = "none";
-    if (forumSection) forumSection.style.display = "block";
-    initEditor();
-    loadPosts();
-  } else {
-    currentUserProfile = null;
-    if (forumSection) forumSection.style.display = "none";
-    if (loginSection) loginSection.style.display = "block";
-  }
-});
-
-function initEditor() {
-  if (typeof tinymce !== "undefined" && !tinymce.get("postContent")) {
-    tinymce.init({
-      selector: "#postContent",
-      plugins: "lists link image emoticons code",
-      toolbar: "undo redo | bold italic | bullist numlist | link image | emoticons | code",
-      menubar: false,
-      height: 300,
-      branding: false
-    });
-  }
-}
-
-if (postForm) {
-  postForm.addEventListener("submit", async (e) => {
-    e.preventDefault();
-    if (!currentUserProfile) {
-      alert("Bitte melde dich an.");
-      return;
-    }
-    const title = document.getElementById("postTitle").value;
-    let content = tinymce.get("postContent") ? tinymce.get("postContent").getContent() : "";
-    try {
-      await addDoc(collection(db, "posts"), {
-        title: title,
-        content: content,
-        author: currentUserProfile.name,
-        timestamp: serverTimestamp()
-      });
-      postForm.reset();
-      if (tinymce.get("postContent")) tinymce.get("postContent").setContent("");
-      loadPosts();
-    } catch (err) {
-      alert("Fehler beim Speichern: " + err.message);
-    }
-  });
-}
-
-async function loadPosts() {
-  if (!postsList) return;
-  const postsQuery = query(collection(db, "posts"), orderBy("timestamp", "desc"));
-  const querySnapshot = await getDocs(postsQuery);
-  postsList.innerHTML = "";
-  querySnapshot.forEach((docSnap) => {
-    const post = docSnap.data();
-    let dateStr = post.timestamp ? post.timestamp.toDate().toLocaleString() : "";
-    const div = document.createElement("div");
-    div.className = "post";
-    div.innerHTML = `<h3>${post.title}</h3><p><b>${post.author}</b> am <i>${dateStr}</i></p><div>${post.content}</div>`;
-    postsList.appendChild(div);
-  });
-}
-
-
+// Passwort zurücksetzen
 const resetForm = document.getElementById("resetForm");
 if (resetForm) {
   resetForm.addEventListener("submit", async (e) => {
@@ -130,9 +68,53 @@ if (resetForm) {
     const email = document.getElementById("resetEmail").value;
     try {
       await sendPasswordResetEmail(auth, email);
-      alert("Passwort-Rücksetzungs-E-Mail gesendet.");
+      alert("E-Mail zur Passwort-Zurücksetzung gesendet.");
     } catch (err) {
       alert("Fehler beim Zurücksetzen: " + err.message);
     }
+  });
+}
+
+// Auth-Zustand verwalten
+onAuthStateChanged(auth, async (user) => {
+  if (user) {
+    loginSection.style.display = "none";
+    forumSection.style.display = "block";
+
+    const postsSnapshot = await getDocs(query(collection(db, "posts"), orderBy("timestamp", "desc")));
+    postsList.innerHTML = "";
+    postsSnapshot.forEach(doc => {
+      const data = doc.data();
+      const postDiv = document.createElement("div");
+      postDiv.className = "post";
+      postDiv.innerHTML = `<h3>${data.title}</h3><p>${data.content}</p><small>von ${data.author}</small>`;
+      postsList.appendChild(postDiv);
+    });
+
+  } else {
+    loginSection.style.display = "block";
+    forumSection.style.display = "none";
+  }
+});
+
+// Beitrag absenden
+if (postForm) {
+  postForm.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const title = document.getElementById("postTitle").value;
+    const content = tinymce.get("postContent").getContent();
+    const user = auth.currentUser;
+    if (!user) return alert("Bitte zuerst einloggen.");
+
+    await addDoc(collection(db, "posts"), {
+      title: title,
+      content: content,
+      author: user.email,
+      timestamp: serverTimestamp()
+    });
+
+    alert("Beitrag gepostet!");
+    postForm.reset();
+    tinymce.get("postContent").setContent("");
   });
 }

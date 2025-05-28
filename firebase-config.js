@@ -1,8 +1,9 @@
+// Import Firebase SDKs
+import { initializeApp } from "firebase/app";
+import { getAuth } from "firebase/auth";
+import { getAnalytics } from "firebase/analytics";
 
-import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-app.js";
-import { getAuth } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-auth.js";
-import { getFirestore } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore.js";
-
+// Firebase-Konfiguration
 const firebaseConfig = {
   apiKey: "AIzaSyALNLHsXb3d8DTpTqs9K50jZMaOZ7H_5u0",
   authDomain: "tel1nlforum-7b6e7.firebaseapp.com",
@@ -13,8 +14,9 @@ const firebaseConfig = {
   measurementId: "G-XTG1LHWXW8"
 };
 
+// Firebase-Initialisierung
 const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
-const db = getFirestore(app);
+const analytics = getAnalytics(app);
+const auth = getAuth(app); // ← Das fehlte
 
-export { auth, db };
+export { auth };

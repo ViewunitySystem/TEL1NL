@@ -1,1 +1,143 @@
 
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <title>Forum & Profil</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body { font-family: sans-serif; background-color: #111; color: #fff; margin: 0; padding: 0; }
+        header, footer { background: #222; padding: 1em; text-align: center; }
+        main { padding: 2em; max-width: 800px; margin: auto; }
+        form { margin: 1em 0; }
+        input, textarea { width: 100%; padding: 0.5em; margin-top: 0.5em; background: #333; color: #fff; border: none; }
+        button { background: #0066ff; border: none; padding: 0.5em 1em; color: white; cursor: pointer; margin-top: 1em; }
+    </style>
+
+
+<script src="https://cdn.tiny.cloud/1/71nrjyt1zhxa6jm586gwu2rq92u9ad2d8nvth0gg84dvrvld/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script>
+<script>
+  tinymce.init({
+    selector: '#message',
+    plugins: 'autolink link image media emoticons code fullscreen table lists save',
+    toolbar: 'undo redo | styles | bold italic underline | link image media emoticons | alignleft aligncenter alignright | bullist numlist | table | fullscreen | code',
+    height: 400,
+    skin: 'oxide-dark',
+    content_css: 'dark',
+    automatic_uploads: true,
+    images_upload_url: 'https://api.cloudinary.com/v1_1/dw8mkv7cn/image/upload',
+    images_upload_handler: function (blobInfo, success, failure) {
+      var formData = new FormData();
+      formData.append('file', blobInfo.blob());
+      formData.append('upload_preset', 'TEL1NL');
+
+      fetch('https://api.cloudinary.com/v1_1/dw8mkv7cn/image/upload', {
+        method: 'POST',
+        body: formData
+      })
+      .then(res => res.json())
+      .then(data => success(data.secure_url))
+      .catch(() => failure('Upload fehlgeschlagen'));
+    }
+  });
+</script>
+<script>
+  tinymce.init({
+    selector: '#message',
+    plugins: 'autolink link image media emoticons code fullscreen table lists save',
+    toolbar: 'undo redo | styles | bold italic underline | link image media emoticons | alignleft aligncenter alignright | bullist numlist | table | fullscreen | code',
+    height: 400,
+    skin: 'oxide-dark',
+    content_css: 'dark',
+    automatic_uploads: true,
+    images_upload_url: 'https://api.cloudinary.com/v1_1/demo/image/upload',
+    images_upload_handler: function (blobInfo, success, failure) {
+      var formData = new FormData();
+      formData.append('file', blobInfo.blob());
+      formData.append('upload_preset', 'docs_upload_example_us_preset');
+
+      fetch('https://api.cloudinary.com/v1_1/demo/image/upload', {
+        method: 'POST',
+        body: formData
+      })
+      .then(res => res.json())
+      .then(data => success(data.secure_url))
+      .catch(() => failure('Upload fehlgeschlagen'));
+    }
+  });
+</script>
+<script>
+  tinymce.init({
+    selector: '#message',
+    plugins: 'autolink link image media emoticons code',
+    toolbar: 'undo redo | bold italic underline | link image media emoticons | code',
+    height: 300
+  });
+</script>
+</head>
+<body>
+<nav>
+<ul>
+    <li><a href="index.html">Start</a></li>
+    <li><a href="about.html">Über uns</a></li>
+    <li><a href="services.html">Dienstleistungen</a></li>
+    <li><a href="forum.html">Forum</a></li>
+    <li><a href="members.html">Mitglieder</a></li>
+    <li><a href="media.html">Media</a></li>
+    <li><a href="contact.html">Kontakt</a></li>
+</ul>
+</nav>
+<header>
+    <h1>Forum & Benutzerprofil</h1>
+</header>
+<main>
+    <section>
+        <h2>Benutzerregistrierung & Profil</h2>
+        <form method="POST" action="https://formspree.io/f/your-form-id" enctype="multipart/form-data">
+            <input type="text" name="username" placeholder="Benutzername" required>
+            <input type="email" name="email" placeholder="E-Mail" required>
+            <input type="password" name="password" placeholder="Passwort" required>
+            <input type="text" name="bio" placeholder="Kurze Beschreibung">
+            <input type="url" name="avatar" placeholder="URL zum Profilbild (optional)">
+            <input type="hidden" name="source" value="profil">
+            <button type="submit">Profil anlegen</button>
+        </form>
+    </section>
+
+    <section>
+        <h2>Forum – Beitrag erstellen</h2>
+        <form method="POST" action="https://formspree.io/f/your-form-id">
+            <input type="text" name="title" placeholder="Titel des Beitrags" required>
+            <textarea id="message" name="message" rows="4" placeholder="Deine Nachricht..." required></textarea>
+            <input type="hidden" name="source" value="forum">
+            <button type="submit">Beitrag posten</button>
+        </form>
+    </section>
+</main>
+
+
+
+<footer class="text-center text-sm text-gray-500 py-6 border-t border-gray-700">
+  <div>
+    <span id="datetime"></span> | Wetter: <span id="weather"></span>
+  </div>
+  <div>
+    &copy; <span id="year"></span> TEL1.nl – Tell first to tell. Alle Rechte vorbehalten.
+  </div>
+</footer>
+<script>
+  document.getElementById('year').textContent = new Date().getFullYear();
+
+  function updateDateTime() {
+    const now = new Date();
+    const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+    const date = now.toLocaleDateString('de-DE', options);
+    const time = now.toLocaleTimeString('de-DE', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+    document.getElementById('datetime').textContent = `${date}, ${time}`;
+  }
+  updateDateTime();
+  setInterval(updateDateTime, 1000);
+  document.getElementById('weather').textContent = 'Teilweise sonnig, 17°C';
+</script>
+
+</body></html>

@@ -1,1 +1,78 @@
+
 @import url('https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css');
+
+/* Grundlayout */
+body {
+  background-color: #121212;
+  color: #e0e0e0;
+  font-family: sans-serif;
+}
+
+nav ul {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  background-color: #1e1e1e;
+  padding: 1rem;
+  list-style: none;
+}
+
+nav ul li a {
+  color: #ccc;
+  text-decoration: none;
+}
+
+h1, h2 {
+  color: #ffffff;
+}
+
+input, textarea {
+  background-color: #1a1a1a;
+  border: 1px solid #333;
+  color: #f0f0f0;
+  padding: 0.5em;
+  width: 100%;
+  margin-bottom: 1em;
+}
+
+button {
+  background-color: #3b82f6;
+  color: white;
+  border: none;
+  padding: 0.5em 1em;
+  margin-top: 0.5em;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #2563eb;
+}
+
+.post {
+  background-color: #1f1f1f;
+  border: 1px solid #333;
+  padding: 1em;
+  margin-bottom: 1em;
+  border-radius: 8px;
+}
+
+.member-profile {
+  background-color: #1a1a1a;
+  border: 1px solid #444;
+  padding: 1em;
+  margin: 1em 0;
+  border-radius: 8px;
+}
+
+.member-profile img.avatar {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-bottom: 0.5em;
+}
+
+/* TinyMCE Editor Sichtbarkeit */
+.tox-tinymce {
+  border-radius: 8px !important;
+}

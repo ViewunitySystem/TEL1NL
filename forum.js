@@ -2,7 +2,7 @@ import { auth, db } from "./firebase-config.js";
 import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
-  onAuthStateChanged
+  sendPasswordResetEmail, onAuthStateChanged
 } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-auth.js";
 import {
   doc, getDoc, setDoc,
@@ -54,7 +54,7 @@ if (registerForm) {
   });
 }
 
-onAuthStateChanged(auth, async (user) => {
+sendPasswordResetEmail, onAuthStateChanged(auth, async (user) => {
   if (user) {
     const docSnap = await getDoc(doc(db, "users", user.uid));
     currentUserProfile = docSnap.exists() ? docSnap.data() : { name: user.email };
@@ -119,5 +119,20 @@ async function loadPosts() {
     div.className = "post";
     div.innerHTML = `<h3>${post.title}</h3><p><b>${post.author}</b> am <i>${dateStr}</i></p><div>${post.content}</div>`;
     postsList.appendChild(div);
+  });
+}
+
+
+const resetForm = document.getElementById("resetForm");
+if (resetForm) {
+  resetForm.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const email = document.getElementById("resetEmail").value;
+    try {
+      await sendPasswordResetEmail(auth, email);
+      alert("Passwort-Rücksetzungs-E-Mail gesendet.");
+    } catch (err) {
+      alert("Fehler beim Zurücksetzen: " + err.message);
+    }
   });
 }

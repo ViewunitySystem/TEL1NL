@@ -1,14 +1,144 @@
-
 <!DOCTYPE html>
 <html lang="de">
 <head>
   <meta charset="UTF-8" />
-  <title>Forum & Profil</title>
+  <title>Forum – Die Zukunft beginnt hier</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link rel="stylesheet" href="styles.css" />
-  <script src="https://cdn.tiny.cloud/1/71nrjyt1zhxa6jm586gwu2rq92u9ad2d8nvth0gg84dvrvld/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #5c6bc0;
+      --accent: #ff4081;
+      --bg: #f5f5f5;
+      --text: #333;
+      --white: #fff;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Roboto', sans-serif;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+
+    nav {
+      background: var(--primary);
+      padding: 1rem;
+    }
+
+    nav ul {
+      list-style: none;
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    nav a {
+      color: var(--white);
+      text-decoration: none;
+      font-weight: bold;
+      padding: 0.5rem 1rem;
+      border-radius: 8px;
+      transition: background 0.3s;
+    }
+
+    nav a:hover {
+      background: var(--accent);
+    }
+
+    header {
+      text-align: center;
+      padding: 2rem 1rem;
+      background: var(--white);
+      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    }
+
+    header h1 {
+      font-size: 2.2rem;
+      color: var(--primary);
+      animation: fadeInDown 1s ease;
+    }
+
+    main {
+      flex: 1;
+      max-width: 800px;
+      margin: 2rem auto;
+      padding: 1rem;
+      animation: fadeIn 1.5s ease;
+    }
+
+    section {
+      background: var(--white);
+      border-radius: 12px;
+      padding: 2rem;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+      text-align: center;
+    }
+
+    section h2 {
+      color: var(--accent);
+      margin-bottom: 1rem;
+    }
+
+    section p {
+      margin-bottom: 1.5rem;
+      font-size: 1.1rem;
+    }
+
+    .forum-button {
+      background: var(--accent);
+      color: var(--white);
+      padding: 0.75rem 1.5rem;
+      font-size: 1.1rem;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: bold;
+      transition: transform 0.3s, background 0.3s;
+    }
+
+    .forum-button:hover {
+      background: var(--primary);
+      transform: scale(1.05);
+    }
+
+    footer {
+      text-align: center;
+      padding: 1rem;
+      font-size: 0.9rem;
+      color: #666;
+      border-top: 1px solid #ddd;
+      background: var(--white);
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes fadeInDown {
+      from { opacity: 0; transform: translateY(-20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @media (max-width: 600px) {
+      nav ul {
+        flex-direction: column;
+      }
+    }
+  </style>
 </head>
 <body>
+
 <nav>
   <ul>
     <li><a href="index.html">Start</a></li>
@@ -22,50 +152,20 @@
 </nav>
 
 <header>
-  <h1>Forum & Benutzerprofil</h1>
+  <h1>Die Zukunft der Technologie beginnt hier</h1>
 </header>
 
 <main>
-  <section id="loginSection">
-    <h2>Login</h2>
-    <form id="loginForm">
-      <input type="email" id="loginEmail" placeholder="E-Mail" required />
-      <input type="password" id="loginPassword" placeholder="Passwort" required />
-      <button type="submit">Einloggen</button>
-    </form>
-    <h3>Passwort vergessen?</h3>
-    <form id="resetForm">
-      <input type="email" id="resetEmail" placeholder="E-Mail zur Rücksetzung" required />
-      <button type="submit">Passwort zurücksetzen</button>
-    </form>
-    <h2>Registrierung</h2>
-    <form id="registerForm">
-      <input type="text" id="regName" placeholder="Benutzername" required />
-      <input type="email" id="regEmail" placeholder="E-Mail" required />
-      <input type="password" id="regPassword" placeholder="Passwort" required />
-      <input type="text" id="regBio" placeholder="Über dich" />
-      <input type="url" id="regAvatar" placeholder="Avatar Bild URL (optional)" />
-      <button type="submit">Registrieren</button>
-    </form>
-  </section>
-
-  <section id="forumSection" style="display:none;">
-    <h2>Beitrag verfassen</h2>
-    <form id="postForm">
-      <input type="text" id="postTitle" placeholder="Titel" required />
-      <textarea id="postContent" placeholder="Inhalt..." rows="6"></textarea>
-      <button type="submit">Posten</button>
-    </form>
-
-    <h2>Alle Beiträge</h2>
-    <div id="postsList"></div>
+  <section>
+    <h2>Willkommen im Forum</h2>
+    <p>Tritt unserer Community bei und diskutiere über Technologie, Innovation und Zukunftstrends.</p>
+    <a href="https://tel1.boards.net/" target="_blank" rel="noopener noreferrer">
+      <button class="forum-button">Zum Forum wechseln</button>
+    </a>
   </section>
 </main>
 
-<footer class="text-center text-sm text-gray-500 py-6 border-t border-gray-700">
-  <div>
-    <span id="datetime"></span> | Wetter: <span id="weather"></span>
-  </div>
+<footer>
   <div>
     &copy; <span id="year"></span> TEL1.nl – Tell first to tell. Alle Rechte vorbehalten.
   </div>
@@ -73,19 +173,7 @@
 
 <script>
   document.getElementById('year').textContent = new Date().getFullYear();
-  function updateDateTime() {
-    const now = new Date();
-    const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-    const date = now.toLocaleDateString('de-DE', options);
-    const time = now.toLocaleTimeString('de-DE', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
-    document.getElementById('datetime').textContent = `${date}, ${time}`;
-  }
-  updateDateTime();
-  setInterval(updateDateTime, 1000);
-  document.getElementById('weather').textContent = 'Teilweise sonnig, 17°C';
 </script>
 
-<script type="module" src="firebase-config.js"></script>
-<script type="module" src="forum.js"></script>
 </body>
 </html>

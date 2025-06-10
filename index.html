@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Autoradio Style Landingpage</title>
+  <style>
+    body {
+      background: #1a1a1a;
+      font-family: Arial, sans-serif;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
+    }
+    .radio-box {
+      background: linear-gradient(to bottom right, #444, #222);
+      border: 3px solid #666;
+      border-radius: 20px;
+      padding: 30px;
+      width: 400px;
+      box-shadow: 0 0 20px #000;
+    }
+    h1 {
+      font-size: 20px;
+      text-align: center;
+      margin-bottom: 5px;
+    }
+    p {
+      text-align: center;
+      font-size: 13px;
+      margin-bottom: 20px;
+      color: #ccc;
+    }
+    input, textarea {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 10px;
+      background: #111;
+      border: 1px solid #888;
+      color: #fff;
+      border-radius: 5px;
+    }
+    .button-row {
+      display: flex;
+      gap: 5px;
+      margin-top: 10px;
+      flex-wrap: wrap;
+    }
+    button {
+      background: #444;
+      border: 1px solid #888;
+      color: #fff;
+      padding: 10px 15px;
+      border-radius: 5px;
+      cursor: pointer;
+      flex: 1;
+    }
+    button:hover {
+      background: #666;
+    }
+    .subdomain-field {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      background: #111;
+      padding: 5px 10px;
+      border: 1px solid #888;
+      border-radius: 5px;
+      margin-bottom: 10px;
+    }
+    .subdomain-field input {
+      border: none;
+      background: transparent;
+      color: #fff;
+      flex: 1;
+    }
+    .subdomain-field span {
+      color: #aaa;
+    }
+  </style>
+</head>
+<body>
+  <div class="radio-box">
+    <h1>Gemeinsam die Tech-Plattform aufbauen</h1>
+    <p>Hilf mit, eine unabhängige Kommunikationsplattform aufzubauen,<br />und werde Teil des Kernteams!</p>
+
+    <form onsubmit="event.preventDefault(); alert('Danke für deine Anmeldung!');">
+      <input type="text" placeholder="Name" required />
+      <input type="email" placeholder="E-Mail" required />
+      <textarea placeholder="Motivation" rows="3"></textarea>
+      <div class="subdomain-field">
+        <input type="text" placeholder="yourname" required />
+        <span>.tel1.nl</span>
+      </div>
+      <div class="button-row">
+        <button type="button" onclick="alert('Timeline wird geladen...')">TIMELINE</button>
+        <button type="button" onclick="alert('Chat starten...')">CHAT</button>
+        <button type="button" onclick="alert('Forum öffnen...')">FORUM</button>
+        <button type="submit">Anmelden</button>
+      </div>
+    </form>
+  </div>
+</body>
+</html>
